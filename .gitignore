@@ -1,0 +1,4 @@
+venv
+*.json
+view.py
+*.pickle
