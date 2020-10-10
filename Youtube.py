@@ -44,8 +44,7 @@ class Youtube:
         try:
             response = request.execute()
             results = response['items']
-            flag = 1
-            while flag:
+            while True:
                 for result in results:
                     text = result['snippet']['topLevelComment']['snippet']['textDisplay']
                     if text.startswith('New Title:-'):
