@@ -41,35 +41,38 @@ class Youtube:
             videoId=video_id,
         )
 
-        response = request.execute()
+        try:
+            response = request.execute()
+            results = response['items']
+            flag = 1
+            while flag:
+                for result in results:
+                    text = result['snippet']['topLevelComment']['snippet']['textDisplay']
+                    if text.startswith('New Title:-'):
+                        return text
+                if 'nextPageToken' in response:
+                    request = self.youtube.commentThreads().list(
+                        part='snippet',
+                        videoId=video_id,
+                        pageToken=response['nextPageToken']
+                    )
+                    response = request.execute()
+                    results = response['items']
+                else:
+                    break
+        except Exception as e:
+            print(e)
+            return None
 
-        results = response['items']
-        flag = 1
-        while flag:
-            for result in results:
-                text = result['snippet']['topLevelComment']['snippet']['textDisplay']
-                if text.startswith('New Title:-'):
-                    return text
-            if 'nextPageToken' in response:
-                request = self.youtube.commentThreads().list(
-                    part='snippet',
-                    videoId='9GinJ8oT_sg',
-                    pageToken=response['nextPageToken']
-                )
-                response = request.execute()
-                results = response['items']
-            else:
-                break
-
-    def update_name(self, text, cat_no):
+    def update_name(self, text: str, cat_no:str, video_id: str):
         print("Setting Name to " + text)
         request = self.youtube.videos().update(
             part="snippet",
             body={
-                "id": "9GinJ8oT_sg",
+                "id": video_id,
                 "snippet": {
                     "title": text,
-                    "categoryId": str(cat_no)
+                    "categoryId": cat_no
                 }
             }
         )
