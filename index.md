@@ -231,7 +231,7 @@ Pickle
 ```python
 import pickle
 
-with open('token.pickle', 'wb') as file:
+with open('secrets/token.pickle', 'wb') as file:
     print("Saving Tokens...")
     pickle.dump(credentials, file)
 ```
@@ -239,9 +239,9 @@ with open('token.pickle', 'wb') as file:
 import pickle
 import os
 
-if os.path.exists('token.pickle'):
+if os.path.exists('secrets/token.pickle'):
     print('Loading Credentials From File...')
-    with open('token.pickle', 'rb') as token:
+    with open('secrets/token.pickle', 'rb') as token:
         credentials = pickle.load(token)
 ```
 
@@ -257,9 +257,9 @@ from googleapiclient.discovery import build
 
 def __init__(self):
     credentials = None
-    if os.path.exists('token.pickle'):
+    if os.path.exists('secrets/token.pickle'):
         print('Loading Credentials From File...')
-        with open('token.pickle', 'rb') as token:
+        with open('secrets/token.pickle', 'rb') as token:
             credentials = pickle.load(token)
 
     if not credentials or not credentials.valid:
@@ -276,7 +276,7 @@ def __init__(self):
             flow.run_local_server(prompt='consent', authorization_prompt_message='')
             credentials = flow.credentials
 
-        with open('token.pickle', 'wb') as file:
+        with open('secrets/token.pickle', 'wb') as file:
             print("Saving Tokens...")
             pickle.dump(credentials, file)
 
@@ -344,14 +344,15 @@ import time
 from src.Youtube import Youtube
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print("Specify videoId and Category Id\nRefer :-" +
               "https://github.com/niranjanneeru/YT-API-Comment-Name\npython main.py <videoId> <categoryId>")
     else:
-        videoId = sys.argv[0]
-        cat_id = sys.argv[1]
+        videoId = sys.argv[1]
+        cat_id = sys.argv[2]
         while True:
             youtube = Youtube()
+            youtube.getViews(videoId)
             text = youtube.get_latest_comment(videoId)
             if text is not None:
                 youtube.update_name(text, cat_id, videoId)
