@@ -75,3 +75,289 @@ categoryId given below
 42 - Shorts<br>
 43 - Shows<br>
 44 - Trailers<br>
+
+
+## Step 
+#### 1
+Start a project in developer Console Google
+Link in README.md
+#### 2
+Install Youtube Data API V3
+from Libraries 
+#### 3
+Create OAuth Consent Screen
+#### 4
+Create OAuth Client ID Credential
+#### 5
+Download Credentials as JSON Data
+Store it as src/sec.json
+#### 6
+Youtube Class
+#### 7
+OAuth Image
+#### 8
+Authenticate Application with OAuth with in __init__
+```python
+from google_auth_oauthlib.flow import InstalledAppFlow
+def __init__(self):
+    print('Fetching New Tokens...')
+    flow = InstalledAppFlow.from_client_secrets_file('sec.json',
+                                                     scopes=[
+                                                         'https://www.googleapis.com/auth/youtube.force-ssl',
+                                                         'https://www.googleapis.com/auth/youtubepartner',
+                                                         'https://www.googleapis.com/auth/youtube'])
+    flow.run_local_server(prompt='consent', authorization_prompt_message='')
+    credentials = flow.credentials
+```
+#### 9
+Update __init__ method
+```python
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+def __init__(self):
+    print('Fetching New Tokens...')
+    flow = InstalledAppFlow.from_client_secrets_file('sec.json',
+                                                     scopes=[
+                                                         'https://www.googleapis.com/auth/youtube.force-ssl',
+                                                         'https://www.googleapis.com/auth/youtubepartner',
+                                                         'https://www.googleapis.com/auth/youtube'])
+    flow.run_local_server(prompt='consent', authorization_prompt_message='')
+    credentials = flow.credentials
+    self.youtube = build('youtube', 'v3', credentials=credentials)
+```
+#### 10
+Get_Latest_Comment() Method
+```python
+def get_latest_comment(self, video_id):
+    print("Fetching Comments...")
+    request = self.youtube.commentThreads().list(
+        part='snippet',
+        videoId=video_id,
+    )
+```
+#### 11
+Execute and print json
+```python
+def get_latest_comment(self, video_id):
+    print("Fetching Comments...")
+    request = self.youtube.commentThreads().list(
+        part='snippet',
+        videoId=video_id,
+    )
+    response = request.execute()
+    print(response)
+```
+#### 12
+Parse Out Comments
+```python
+results = response['items']
+for result in results:
+    text = result['snippet']['topLevelComment']['snippet']['textDisplay']
+    print(text)
+```
+#### 13
+Update Title <br>
+Refer Docs update() Method
+```python
+request = self.youtube.videos().update(
+        part="snippet",
+        body={
+            "id": video_id,
+            "snippet": {
+                "title": text,
+                "categoryId": cat_no
+            }
+        }
+    )
+```
+Execute
+```python
+def update_name(self, text: str, cat_no: str, video_id: str):
+    print("Setting Name to " + text)
+    request = self.youtube.videos().update(
+        part="snippet",
+        body={
+            "id": video_id,
+            "snippet": {
+                "title": text,
+                "categoryId": cat_no
+            }
+        }
+    )
+    request.execute()
+```
+#### 14
+Catch Exceptions
+```python
+def update_name(self, text: str, cat_no: str, video_id: str):
+    print("Setting Name to " + text)
+    request = self.youtube.videos().update(
+        part="snippet",
+        body={
+            "id": video_id,
+            "snippet": {
+                "title": text,
+                "categoryId": cat_no
+            }
+        }
+    )
+    try:
+        request.execute()
+    except Exception as e:
+        print(e)
+```
+
+#### 15
+main.py
+```python
+from src.Youtube import Youtube
+
+if __name__ == "__main__":
+    video_id = '<some Link>'
+    cat_id = '<catId> : Refer Github'
+    youtube = Youtube()
+    youtube.get_latest_comment(video_id)
+    text = "Hi New Title"
+    youtube.update_name(text, cat_id, video_id)
+```
+
+#### 16
+Refer Command Prompt
+
+#### 17
+Authentication Efficiency 
+
+Pickle
+```python
+import pickle
+
+with open('token.pickle', 'wb') as file:
+    print("Saving Tokens...")
+    pickle.dump(credentials, file)
+```
+```python
+import pickle
+import os
+
+if os.path.exists('token.pickle'):
+    print('Loading Credentials From File...')
+    with open('token.pickle', 'rb') as token:
+        credentials = pickle.load(token)
+```
+
+Incorporating ....
+```python
+import os
+import pickle
+
+from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+
+
+def __init__(self):
+    credentials = None
+    if os.path.exists('token.pickle'):
+        print('Loading Credentials From File...')
+        with open('token.pickle', 'rb') as token:
+            credentials = pickle.load(token)
+
+    if not credentials or not credentials.valid:
+        if credentials and credentials.expired and credentials.refresh_token:
+            print('Refreshing Access Token...')
+            credentials.refresh(Request())
+        else:
+            print('Fetching New Tokens...')
+            flow = InstalledAppFlow.from_client_secrets_file('sec.json',
+                                                             scopes=[
+                                                                 'https://www.googleapis.com/auth/youtube.force-ssl',
+                                                                 'https://www.googleapis.com/auth/youtubepartner',
+                                                                 'https://www.googleapis.com/auth/youtube'])
+            flow.run_local_server(prompt='consent', authorization_prompt_message='')
+            credentials = flow.credentials
+
+        with open('token.pickle', 'wb') as file:
+            print("Saving Tokens...")
+            pickle.dump(credentials, file)
+
+    self.youtube = build('youtube', 'v3', credentials=credentials)
+```
+
+#### 18
+Fetching Comments from nextPageToken
+```python
+def get_latest_comment(self, video_id) -> str:
+    print("Fetching Comments...")
+    request = self.youtube.commentThreads().list(
+        part='snippet',
+        videoId=video_id,
+    )
+
+    try:
+        response = request.execute()
+        results = response['items']
+        while True:
+            for result in results:
+                text = result['snippet']['topLevelComment']['snippet']['textDisplay']
+                if text.startswith('New Title:-'):
+                    return text[len("New Title:-"):]
+            if 'nextPageToken' in response:
+                request = self.youtube.commentThreads().list(
+                    part='snippet',
+                    videoId=video_id,
+                    pageToken=response['nextPageToken']
+                )
+                response = request.execute()
+                results = response['items']
+            else:
+                break
+    except Exception as e:
+        print(e)
+        return None
+```
+
+#### 19
+No New Comments Message <br>
+Declare title variable
+```python
+if os.path.exists('comment.pickle'):
+    print('Loading Comment From File...')
+    with open('comment.pickle', 'rb') as comment:
+        self.title = pickle.load(comment)
+
+if not flag and self.title == results[0]['snippet']['topLevelComment']['snippet']['textDisplay']:
+    print("No New Comments...")
+    break
+elif not flag:
+    self.title = results[0]['snippet']['topLevelComment']['snippet']['textDisplay']
+    with open('comment.pickle', 'wb') as file:
+        print("Saving Comment...")
+        pickle.dump(self.title, file)
+```
+
+#### 20
+main.py
+```python
+import sys
+import time
+
+from src.Youtube import Youtube
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Specify videoId and Category Id\nRefer :-" +
+              "https://github.com/niranjanneeru/YT-API-Comment-Name\npython main.py <videoId> <categoryId>")
+    else:
+        videoId = sys.argv[0]
+        cat_id = sys.argv[1]
+        while True:
+            youtube = Youtube()
+            text = youtube.get_latest_comment(videoId)
+            if text is not None:
+                youtube.update_name(text, cat_id, videoId)
+                print("Re-Trying in 30s...")
+                time.sleep(30)
+            else:
+                print("Re-Trying in 60s...")
+                time.sleep(60)
+```
