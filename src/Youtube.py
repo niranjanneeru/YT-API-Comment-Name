@@ -11,9 +11,9 @@ class Youtube:
 
     def __init__(self):
         credentials = None
-        if os.path.exists('token.pickle'):
+        if os.path.exists('secrets/token.pickle'):
             print('Loading Credentials From File...')
-            with open('token.pickle', 'rb') as token:
+            with open('secrets/token.pickle', 'rb') as token:
                 credentials = pickle.load(token)
 
         if not credentials or not credentials.valid:
@@ -22,7 +22,7 @@ class Youtube:
                 credentials.refresh(Request())
             else:
                 print('Fetching New Tokens...')
-                flow = InstalledAppFlow.from_client_secrets_file('sec.json',
+                flow = InstalledAppFlow.from_client_secrets_file('secrets/sec.json',
                                                                  scopes=[
                                                                      'https://www.googleapis.com/auth/youtube.force-ssl',
                                                                      'https://www.googleapis.com/auth/youtubepartner',
@@ -30,7 +30,7 @@ class Youtube:
                 flow.run_local_server(prompt='consent', authorization_prompt_message='')
                 credentials = flow.credentials
 
-            with open('token.pickle', 'wb') as file:
+            with open('secrets/token.pickle', 'wb') as file:
                 print("Saving Tokens...")
                 pickle.dump(credentials, file)
 
@@ -48,9 +48,9 @@ class Youtube:
             results = response['items']
             flag = 0
             while True:
-                if os.path.exists('comment.pickle'):
+                if os.path.exists('secrets/comment.pickle'):
                     print('Loading Comment From File...')
-                    with open('comment.pickle', 'rb') as comment:
+                    with open('secrets/comment.pickle', 'rb') as comment:
                         self.title = pickle.load(comment)
 
                 if not flag and self.title == results[0]['snippet']['topLevelComment']['snippet']['textDisplay']:
@@ -58,7 +58,7 @@ class Youtube:
                     break
                 elif not flag:
                     self.title = results[0]['snippet']['topLevelComment']['snippet']['textDisplay']
-                    with open('comment.pickle', 'wb') as file:
+                    with open('secrets/comment.pickle', 'wb') as file:
                         print("Saving Comment...")
                         pickle.dump(self.title, file)
                 for result in results:
@@ -94,5 +94,16 @@ class Youtube:
         )
         try:
             request.execute()
+        except Exception as e:
+            print(e)
+
+    def getViews(self, video_id):
+        request = self.youtube.videos().list(
+            part="statistics",
+            id=video_id
+        )
+        try:
+            views = request.execute()['items'][0]['statistics']['viewCount']
+            print("No of views:- "+str(views))
         except Exception as e:
             print(e)
