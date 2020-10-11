@@ -1,5 +1,5 @@
 venv
 *.json
-view.py
+src/view.py
 *.pickle
 .idea

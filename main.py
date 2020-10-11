@@ -1,7 +1,7 @@
 import sys
 import time
 
-from Youtube import Youtube
+from src.Youtube import Youtube
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
