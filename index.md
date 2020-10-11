@@ -1,37 +1,77 @@
-## Welcome to GitHub Pages
+# YT API Comment Name
 
-You can use the [editor on GitHub](https://github.com/niranjanneeru/YT-API-Comment-Name/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Script uses Youtube API to access the comment and set it as the title of the video
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Useful Links
 
-### Markdown
+[Youtube Tutorial]() <br>
+[Developer Console](https://console.developers.google.com/) <br>
+[Data API V3 Getting started](https://developers.google.com/youtube/v3/getting-started) <br>
+[Google Python Client API Github](https://github.com/googleapis/google-api-python-client) <br>
+[Pickle Module Docs](https://docs.python.org/3/library/pickle.html) <br>
+[Scopes](https://developers.google.com/identity/protocols/oauth2/scopes#youtube) <br>
+[Installed Apps](https://developers.google.com/youtube/v3/live/guides/auth/installed-apps) <br>
+[Youtube Data V3 Docs](https://developers.google.com/youtube/v3/docs)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### PythonAnywhere Deployment
 
-```markdown
-Syntax highlighted code block
+Create Virtual Environment
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+python3 -m venv ytenv
+source ytenv/bin/activate
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Installing Requirements
 
-### Jekyll Themes
+```
+pip install -r requirements.txt
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/niranjanneeru/YT-API-Comment-Name/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Running main.py
 
-### Support or Contact
+```
+python3 main.py <videoId> <categoryId>
+```
+videoId in the url
+categoryId given below
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### OAuth
+
+<img src ="https://github.com/niranjanneeru/YT-API-Comment-Name/blob/master/raw/OAuth.jpeg?raw=true">
+
+
+### List of Category Id
+
+1 -  Film & Animation<br>
+2 - Autos & Vehicles<br>
+10 - Music<br>
+15 - Pets & Animals<br>
+17 - Sports<br>
+18 - Short Movies<br>
+19 - Travel & Events<br>
+20 - Gaming<br>
+21 - Video Blogging<br>
+22 - People & Blogs<br>
+23 - Comedy<br>
+24 - Entertainment<br>
+25 - News & Politics<br>
+26 - Howto & Style<br>
+27 - Education<br>
+28 - Science & Technology<br>
+29 - Nonprofits & Activism<br>
+30 - Movies<br>
+31 - Anime/Animation<br>
+32 - Action/Adventure<br>
+33 - Classics<br>
+34 - Comedy<br>
+35 - Documentary<br>
+36 - Drama<br>
+37 - Family<br>
+38 - Foreign<br>
+39 - Horror<br>
+40 - Sci-Fi/Fantasy<br>
+41 - Thriller<br>
+42 - Shorts<br>
+43 - Shows<br>
+44 - Trailers<br>
