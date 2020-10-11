@@ -38,7 +38,7 @@ categoryId given below
 
 ### OAuth
 
-[!Image](OAuth.jpeg)
+<img src ="https://github.com/niranjanneeru/YT-API-Comment-Name/blob/master/OAuth.jpeg?raw=true">
 
 
 ### List of Category Id
