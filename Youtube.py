@@ -27,11 +27,11 @@ class Youtube:
                                                                      'https://www.googleapis.com/auth/youtube.force-ssl',
                                                                      'https://www.googleapis.com/auth/youtubepartner',
                                                                      'https://www.googleapis.com/auth/youtube'])
-                flow.run_local_server(port=8080, prompt='consent', authorization_prompt_message='')
+                flow.run_local_server(prompt='consent', authorization_prompt_message='')
                 credentials = flow.credentials
 
             with open('token.pickle', 'wb') as file:
-                print("Saving...")
+                print("Saving Tokens...")
                 pickle.dump(credentials, file)
 
         self.youtube = build('youtube', 'v3', credentials=credentials)

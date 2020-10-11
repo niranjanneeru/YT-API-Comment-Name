@@ -1,8 +1,47 @@
-# YT-API-Comment-Name
+# YT API Comment Name
 
 Script uses Youtube API to access the comment and set it as the title of the video
 
-List of Category Id
+### Useful Links
+
+[Youtube Tutorial]() <br>
+[Developer Console](https://console.developers.google.com/) <br>
+[Data API V3 Getting started](https://developers.google.com/youtube/v3/getting-started) <br>
+[Google Python Client API Github](https://github.com/googleapis/google-api-python-client) <br>
+[Pickle Module Docs](https://docs.python.org/3/library/pickle.html) <br>
+[Scopes](https://developers.google.com/identity/protocols/oauth2/scopes#youtube) <br>
+[Installed Apps](https://developers.google.com/youtube/v3/live/guides/auth/installed-apps) <br>
+[Youtube Data V3 Docs](https://developers.google.com/youtube/v3/docs)
+
+### PythonAnywhere Deployment
+
+Create Virtual Environment
+
+```
+python3 -m venv ytenv
+source ytenv/bin/activate
+```
+
+Installing Requirements
+
+```
+pip install -r requirements.txt
+```
+
+Running main.py
+
+```
+python3 main.py <videoId> <categoryId>
+```
+videoId in the url
+categoryId given below
+
+### OAuth
+
+[!Image](OAuth.jpeg)
+
+
+### List of Category Id
 
 1 -  Film & Animation<br>
 2 - Autos & Vehicles<br>
