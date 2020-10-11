@@ -1,6 +1,5 @@
 venv
 *.json
-src/view.py
 *.pickle
 .idea
 step.md
