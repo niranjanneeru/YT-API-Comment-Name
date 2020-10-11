@@ -7,6 +7,8 @@ from googleapiclient.discovery import build
 
 
 class Youtube:
+    title = ''
+
     def __init__(self):
         credentials = None
         if os.path.exists('token.pickle'):
@@ -44,17 +46,32 @@ class Youtube:
         try:
             response = request.execute()
             results = response['items']
+            flag = 0
             while True:
+                if os.path.exists('comment.pickle'):
+                    print('Loading Comment From File...')
+                    with open('comment.pickle', 'rb') as comment:
+                        self.title = pickle.load(comment)
+
+                if not flag and self.title == results[0]['snippet']['topLevelComment']['snippet']['textDisplay']:
+                    print("No New Comments...")
+                    break
+                elif not flag:
+                    self.title = results[0]['snippet']['topLevelComment']['snippet']['textDisplay']
+                    with open('comment.pickle', 'wb') as file:
+                        print("Saving Comment...")
+                        pickle.dump(self.title, file)
                 for result in results:
                     text = result['snippet']['topLevelComment']['snippet']['textDisplay']
                     if text.startswith('New Title:-'):
-                        return text
+                        return text[len("New Title:-"):]
                 if 'nextPageToken' in response:
                     request = self.youtube.commentThreads().list(
                         part='snippet',
                         videoId=video_id,
                         pageToken=response['nextPageToken']
                     )
+                    flag = 1
                     response = request.execute()
                     results = response['items']
                 else:
@@ -63,7 +80,7 @@ class Youtube:
             print(e)
             return None
 
-    def update_name(self, text: str, cat_no:str, video_id: str):
+    def update_name(self, text: str, cat_no: str, video_id: str):
         print("Setting Name to " + text)
         request = self.youtube.videos().update(
             part="snippet",
