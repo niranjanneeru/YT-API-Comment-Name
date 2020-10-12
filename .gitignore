@@ -3,6 +3,4 @@ venv
 secrets
 .idea
 step.md
-raw
-src
-README.md
+.py
