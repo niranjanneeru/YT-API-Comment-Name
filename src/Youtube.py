@@ -93,7 +93,38 @@ class Youtube:
                 "id": video_id,
                 "snippet": {
                     "title": "Realtime Title: " + text,
-                    "categoryId": cat_no
+                    "categoryId": cat_no,
+                    "description":"""Instruction: You just need to comment on it, See the title changes within a span of 60s
+
+Implementation Video:- https://youtu.be/Ep8owfBeOyk
+
+Resources:- https://github.com/niranjanneeru/YT-API-Comment-Name
+
+The Project Walkthrough takes you to the vast possibility of Google API, especially Youtube API, the whole process of Authenticating, Updating, Fetching Comments, and Views. Google OAuth Library is explained for Authentication and making API calls 
+
+
+For Deployment:- https://youtu.be/Ep8owfBeOyk
+Python Anywhere  & Digital Ocean
+
+Playlist: https://www.youtube.com/playlist?list=PLMRsauON0vW2T2LIguI23oMeQPn7DPGIn
+
+
+🌎 Website https://codersofgreyhavens
+⭐ Discord: https://discord.gg/6eBZxF
+
+📂 GitHub: https://github.com/niranjanneeru
+
+
+⚡ Please leave a LIKE and SUBSCRIBE for more content! ⚡
+
+Tags:
+- Coders of grey havens
+- Python Tutorials
+- API
+- Youtube API
+- Google OAuth
+
+#python #api #ytapi #oauth #developerconsole #pycharm #vscode #pythonanywhere"""
                 }
             }
         )
