@@ -47,21 +47,26 @@ class Youtube:
             response = request.execute()
             results = response['items']
             flag = 0
+            pin = 1
             while True:
+
                 if os.path.exists('secrets/comment.pickle'):
                     print('Loading Comment From File...')
                     with open('secrets/comment.pickle', 'rb') as comment:
                         self.title = pickle.load(comment)
 
-                if not flag and self.title == results[0]['snippet']['topLevelComment']['snippet']['textDisplay']:
+                if not flag and self.title == results[1]['snippet']['topLevelComment']['snippet']['textDisplay']:
                     print("No New Comments...")
                     break
                 elif not flag:
-                    self.title = results[0]['snippet']['topLevelComment']['snippet']['textDisplay']
+                    self.title = results[1]['snippet']['topLevelComment']['snippet']['textDisplay']
                     with open('secrets/comment.pickle', 'wb') as file:
                         print("Saving Comment...")
                         pickle.dump(self.title, file)
                 for result in results:
+                    if pin:
+                        pin = 0
+                        continue
                     text = result['snippet']['topLevelComment']['snippet']['textDisplay']
                     if text.startswith('New Title:-'):
                         return text[len("New Title:-"):]
@@ -87,7 +92,7 @@ class Youtube:
             body={
                 "id": video_id,
                 "snippet": {
-                    "title": text,
+                    "title": "Realtime Title: " + text,
                     "categoryId": cat_no
                 }
             }
@@ -104,6 +109,6 @@ class Youtube:
         )
         try:
             views = request.execute()['items'][0]['statistics']['viewCount']
-            print("No of views:- "+str(views))
+            print("No of views:- " + str(views))
         except Exception as e:
             print(e)
