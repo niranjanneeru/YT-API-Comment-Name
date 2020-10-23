@@ -12,7 +12,7 @@ if __name__ == "__main__":
         cat_id = sys.argv[2]
         while True:
             youtube = Youtube()
-            youtube.getViews(videoId)
+            # youtube.getViews(videoId)
             text = youtube.get_latest_comment(videoId)
             if text is not None:
                 youtube.update_name(text, cat_id, videoId)
