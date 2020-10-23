@@ -94,7 +94,7 @@ class Youtube:
                 "snippet": {
                     "title": "Realtime Title: " + text,
                     "categoryId": cat_no,
-                    "description":"""Instruction: You just need to comment on it, See the title changes within a span of 60s
+                    "description": """Instruction: You just need to comment on it, See the title changes within a span of 60s
 
 Implementation Video:- https://youtu.be/Ep8owfBeOyk
 
@@ -124,7 +124,12 @@ Tags:
 - Youtube API
 - Google OAuth
 
-#python #api #ytapi #oauth #developerconsole #pycharm #vscode #pythonanywhere"""
+#python #api #ytapi #oauth #developerconsole #pycharm #vscode #pythonanywhere""",
+                    "tags": [
+                        'Coders of grey havens', 'Python Tutorials', 'api', 'ytapi', 'oauth', 'developerconsole',
+                        'pycharm', 'vscode',
+                        'pythonanywhere', 'python', 'Youtube API', 'Google OAuth'
+                    ],
                 }
             }
         )
