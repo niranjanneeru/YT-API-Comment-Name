@@ -4,7 +4,8 @@ Script uses Youtube API to access the comment and set it as the title of the vid
 
 ### Useful Links
 
-[Youtube Tutorial]() <br>
+[Youtube Tutorial](https://www.youtube.com/watch?v=Ep8owfBeOyk) <br>
+[Implemented](https://youtu.be/PL4SuLArZSY)<br>
 [Developer Console](https://console.developers.google.com/) <br>
 [Data API V3 Getting started](https://developers.google.com/youtube/v3/getting-started) <br>
 [Google Python Client API Github](https://github.com/googleapis/google-api-python-client) <br>
